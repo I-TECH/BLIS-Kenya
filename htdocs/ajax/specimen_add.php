@@ -61,7 +61,7 @@ $title=$_REQUEST['title'];
 $tests_list = $_REQUEST['t_type_list'];
 $external_lab_no = $_REQUEST['external_lab_no'];
 $facility_code=$_REQUEST['MFL_Code'];
-//die('Nini hii?');
+
 
 
 begin_transaction();

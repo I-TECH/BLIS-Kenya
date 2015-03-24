@@ -122,6 +122,7 @@ class LabConfig
 	public $hidePatientName; # Flag to hide patient name at results entry
 	public $ageLimit;
 	public $country;
+	public $MFL_Code;
 	
 	public static $ID_AUTOINCR = 1;
 	public static $ID_MANUAL = 2;
@@ -221,6 +222,10 @@ class LabConfig
 			$lab_config->ageLimit = $record['ageLimit'];
 		else
 			$lab_config->ageLimit = 5;
+		if(isset($record['Facility_Code']) && $record['Facility_Code']!="")
+			$lab_config->MFL_Code = $record['Facility_Code'];
+		else
+			$lab_config->MFL_Code = 0;
 		return $lab_config;
 	}
 	
@@ -288,6 +293,12 @@ class LabConfig
 	{
 		# Returns site-name string
 		return $this->name." - ".$this->location;
+	}
+
+		public function getSiteMFLcode()
+	{
+		# Returns site-name string
+		return $this->MFL_Code;
 	}
 	
 	public function getGoalTatValues()

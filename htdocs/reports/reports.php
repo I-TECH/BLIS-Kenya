@@ -270,6 +270,15 @@ function show_disease_form()
 	$('#disease_report_div_help').show();
 	$('#disease_report_menu').addClass('current_menu_option');
 }
+function show_summaryreport_form()
+{
+	$('.reports_subdiv').hide();
+	$('.reports_subdiv_help').hide();
+	$('.menu_option').removeClass('current_menu_option');
+	$('#summary_report_div').show();
+	$('#summary_report_div_help').show();
+	$('#summary_report_menu').addClass('current_menu_option');
+}
 function show_stock_form()
 {
 	$('.reports_subdiv').hide();
@@ -1536,6 +1545,52 @@ function get_disease_report()
 	$('#disease_report_form').submit();
 }
 
+function get_summary_report()
+{
+	// Validate
+	var l = $("#location14").attr("value");
+	
+	var from_date = $("#from-date-sr").attr("value");
+    /*
+    * Call a  function to validate the format of the keyed in format
+    */             
+    if (dt_format_check(from_date, "From Date") == false)
+    {return;}
+    /* execute if the date is ok echiteri*/
+    
+    var to_date = $("#to-date-sr").attr("value");
+    /*
+    * Call a  function to validate the format of the keyed in format
+    */             
+    if (dt_format_check(to_date, "To Date") == false)
+    {return;}
+    /* execute if the date is ok echiteri*/
+    
+    dateFromArray = from_date.split("-");
+    y_from = dateFromArray[0];
+    m_from = dateFromArray[1];
+    d_from = dateFromArray[2];
+    
+    dateToArray = to_date.split("-");
+    y_to = dateToArray[0];
+    m_to = dateToArray[1];
+    d_to = dateToArray[2];
+
+	var cat_code = $('#cat_code14').attr("value");
+	if(checkDate(y_from, m_from, d_from) == false)
+	{
+		alert("<?php echo LangUtil::$generalTerms['TIPS_DATEINVALID']; ?>");
+		return;
+	}
+	if(checkDate(y_to, m_to, d_to) == false)
+	{
+		alert("<?php echo LangUtil::$generalTerms['TIPS_DATEINVALID']; ?>");
+		return;
+	}
+	// All okay
+	$('#summary_report_form').submit();
+}
+
 function get_consumption_report()
 {
 	var location = $("#location5").attr("value");
@@ -1972,6 +2027,85 @@ function show_custom_report_form(report_id)
             
     </div>
     
+    <!-- begin summary report-->
+ <div class="portlet box blue reports_subdiv" id="summary_report_div" style="display: none">
+        <div class="portlet-title" >
+                                <h4><i class="icon-reorder"></i><?php echo LangUtil::$pageTerms['MENU_SUMMARYREPORT']; ?></h4>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse"></a>
+                                   <!-- <a data-toggle="modal" class="config"></a> -->
+                                </div>
+        </div>
+    <div class="portlet-body" style="height: 400px">
+            <div id='summary_report'>
+            <div class="span4" style="position: absolute;top: 150px;right: 30px;">
+                        <!-- BEGIN Portlet PORTLET-->
+                        <div class="">
+                                            <div class="well text-success">
+                                            <?php
+                                            //Infection report
+                                            $tips_string = "Select Date range to view the Summary report";
+                                            $page_elems->getSideTip(LangUtil::$generalTerms['TIPS'], $tips_string);
+                                            echo "<br><br>";
+                                            ?>
+                                                
+                                            </div>
+                                        </div>
+                    </div>
+                <br><br>
+            <form id='summary_report_form' action='reports/summary_report.php' method='post' target="_blank">
+            <table>
+                <tbody>
+                <?php
+                $site_list = get_site_list($_SESSION['user_id']);
+                if(count($site_list) == 1)
+                {
+                    foreach($site_list as $key=>$value)
+                        echo "<input type='hidden' name='location' id='location14' value='$key'></input>";
+                }
+                else
+                {
+                ?>
+                  
+                <?php
+                }
+                ?>
+                    <tr class="sdate_row" id="sdate_row" valign='top'>
+                        <td><?php echo LangUtil::$generalTerms['FROM_DATE']; ?> </td>
+                        <td>
+                        <div class="input-append date date-picker" data-date="<?php echo date("Y-m-d"); ?>" data-date-format="yyyy-mm-dd"> 
+                                <input class="m-wrap m-ctrl-medium" size="16" name="from-report-date" id="from-date-sr" type="text" value="<?php echo date("Y-m-d"); ?>" ><span class="add-on"><i class="icon-calendar"></i></span>
+                         </div>
+                    </tr>
+                    <tr class="edate_row" id="edate_row" valign='top'>
+                        <td><?php echo LangUtil::$generalTerms['TO_DATE']; ?>&nbsp;&nbsp;&nbsp;</td>
+                        <td>
+                        <div class="input-append date date-picker" data-date="<?php echo date("Y-m-d"); ?>" data-date-format="yyyy-mm-dd"> 
+                                <input class="m-wrap m-ctrl-medium" size="16" name="to-report-date" id="to-date-sr" type="text" value="<?php echo date("Y-m-d"); ?>" ><span class="add-on"><i class="icon-calendar"></i></span>
+                         </div>
+                        </td>
+                    </tr>
+                   
+                    <tr>
+                        <td></td>
+                        <td>
+                            <br>
+                            <input type='button' class="btn blue" value='<?php echo LangUtil::$generalTerms['CMD_SUBMIT']; ?>' onclick='javascript:get_summary_report()'></input>
+                            &nbsp;&nbsp;&nbsp;
+                            <span id='summary_report_progress_spinner'  style='display:none;'>
+                                <?php $page_elems->getProgressSpinner(LangUtil::$generalTerms['CMD_FETCHING']); ?>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </form>
+        </div>
+    </div>
+            
+    </div>
+
+    <!-- end summary report-->
     
     <div class="portlet box blue reports_subdiv" id="tat_div" style="display: none">
         <div class="portlet-title" >
@@ -3869,6 +4003,12 @@ $(document).ready(function(){
 	{
 		?>
 		show_disease_form();
+		<?php
+	}
+	else if (isset($_REQUEST['show_labsummary']))
+	{
+		?>
+		show_summaryreport_form();
 		<?php
 	}
 	else if (isset($_REQUEST['show_p']))

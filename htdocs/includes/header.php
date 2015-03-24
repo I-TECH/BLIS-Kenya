@@ -365,6 +365,9 @@ if(strpos($_SERVER['PHP_SELF'], 'login.php') === false)
 												</li>
 												<li class='menu_option' id='consumption_report_menu'>
 													<a href='javascript:show_selection(".$quote."consumption_report".$quote.");'> <i class='icon-tag'></i> ".LangUtil::$allTerms['MENU_CONSUMPTIONREPORT']."</a>
+												</li>
+												<li class='menu_option' id='summary_report_menu'>
+													<a href='javascript:show_selection(".$quote."summary_report".$quote.");'> <i class='icon-tag'></i> Summary Report</a>
 												</li>";
 						                     	if(is_admin(get_user_by_id($_SESSION['user_id'])))
 						                        { 
@@ -479,8 +482,8 @@ if(strpos($_SERVER['PHP_SELF'], 'login.php') === false)
 						<li>
 							<a id='option3' class='menu_option' href='javascript:right_load(3, ".$quote."users_div".$quote.");'><i class='icon-tag'></i> ".LangUtil::$allTerms['MENU_USERS']."</a>
 						</li>
-						<li style='display: none'>
-							<a id='option4' class='menu_option' href='javascript:_right_load(4, ".$quote."fields_div".$quote.");'><i class='icon-tag'></i> ".LangUtil::$allTerms['MENU_CUSTOM']."</a>
+						<li>
+							<a id='option4' class='menu_option' href='javascript:right_load(4, ".$quote."fields_div".$quote.");'><i class='icon-tag'></i> ".LangUtil::$allTerms['MENU_CUSTOM']."</a>
 						</li>
 						<li style='display: none'>			
 							<a id='option19' class='menu_option' href='javascript:language_div_load();'><i class='icon-tag'></i> ".LangUtil::$allTerms['MODIFYLANG']."</a>

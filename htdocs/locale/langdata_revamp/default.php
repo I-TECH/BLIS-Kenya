@@ -466,6 +466,7 @@ $LANG_ARRAY = array (
 		"MENU_CONTROLREPORT" => "Control Report",
 		"MENU_TAT" => "Turnaround Time", 
 		"MENU_INFECTIONREPORT" => "Infection Report", 
+		"MENU_SUMMARYREPORT" => "Laboratory Summary Report", 
 		"MENU_CONSUMPTIONREPORT" => "Consumption Report",
 		"COUNT_TYPE" => "Count Type", 
 		"COUNT_TEST" => "Test Count", 

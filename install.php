@@ -57,7 +57,8 @@ if ($_REQUEST){
 			$result = mysql_query($query);
 			if ($result){
 				$row = mysql_fetch_assoc($result);
-				$query = 'UPDATE lab_config SET `name`=\''.$row['Facility_Name'].'\', Facility_Code=\''.$MFL_Code.'\' LIMIT 1';
+				$fac_name=mysql_real_escape_string($row['Facility_Name']);
+				$query = 'UPDATE lab_config SET `name`=\''.$fac_name.'\', Facility_Code=\''.$MFL_Code.'\' LIMIT 1';
 				mysql_query($query);
 			}
 		}
